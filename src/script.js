@@ -1,12 +1,22 @@
+function displayPoem(response) {
+    new Typewriter("#poem", {
+            strings: response.data.answer,
+            autoStart: true,
+            cursor: "",
+            delay: 1,
+        });
+}
+
 function generatePoem(event) {
     event.preventDefault();
 
-    new Typewriter("#poem", {
-        strings: "La tombe dit a la rose",
-        autoStart: true,
-        cursor: "",
-        delay: 1,
-      });
+    let instructionInput = document.querySelector("#instructions");
+    prompt = `User Instructions: Generate a poem using ${instructionInput.value}.`;
+    context = "You are a romantic poet who writes 5 line poems using basic HTML format and seperates each like with <br />. Do not add ''''html' at the beginning or include a title. Sign the end of the poem with 'SheCodes AI' using the <strong> element.";
+    apiKey = "40e28c77t4bb5368od54b9ccc0f6fad9";
+    apiURL = `https://api.shecodes.io/ai/v1/generate?prompt=${prompt}&context=${context}&key=${apiKey}`;
+
+    axios.get(apiURL).then(displayPoem); 
 }
 
 let poemFormElement = document.querySelector("#form");
